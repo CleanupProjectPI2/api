@@ -2,24 +2,32 @@ const connectionDB = require("../ConnectionDB");
 
 const UserDAO = {
     
-    async insertUser(userModel) {
-        try{
+    async insertUser(user) {
+        try {
             var connection = await connectionDB.openConnectionDB();
 
-            var result = await connection.execute(`INSERT INTO users(name, email,  adm, password) VALUES (?,?,?,?)`, [ userModel.name, userModel.email, userModel.adm, userModel.password]);
-            
+            var result = await connection.execute(
+                `INSERT INTO users (name, tell, email, password, about, rooms) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)`, 
+                [
+                    user.name, 
+                    user.tell, 
+                    user.email, 
+                    user.password, 
+                    user.about, 
+                    user.rooms
+                ]
+            );
+
             await connection.end();
-            
-            if(result != null){
-                console.log("Sucesso na inseção!");
-                return ({result: true, message: "Sucesso na inseção!"});
-            }else{
-                console.log("Erro na inseção!");
-                return ({result: false, message: "Erro na inseção!"});
+
+            if (result != null) {
+                return ({ result: true, message: "Sucesso na inserção!" });
+            } else {
+                return ({ result: false, message: "Erro na inserção!" });
             }
-        }catch(error){
-            console.log(error);
-            return ({result: false, message: error});
+        } catch (error) {
+            return ({ result: false, message: error });
         }
     },
 
@@ -48,7 +56,7 @@ const UserDAO = {
         try{
             var connection = await connectionDB.openConnectionDB();
 
-            var result = await connection.execute(`UPDATE users SET name = ?, tell = ?, surname = ?, email = ?, adress = ?, password = ? WHERE id = ?`, [userModel.name, userModel.tell, userModel.surname, userModel.email, userModel.adress, userModel.password, userModel.id]);
+            var result = await connection.execute(`UPDATE users SET name = ?, tell = ?, email = ?, password = ?, about = ?, rooms = ?, WHERE id = ?`, [userModel.name, userModel.tell, userModel.email, userModel.password, userModel.about, userModel.rooms, userModel.id]);
             
             await connection.end();
             

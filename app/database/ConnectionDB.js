@@ -1,6 +1,6 @@
 var mysql = require('mysql2');
 
-var bdName = "ecommercepw1";
+var bdName = "cleanupbd";
 
 
 const connectionDB = {
@@ -65,159 +65,122 @@ const connectionDB = {
           await connectionDB.executeQuery(connection, 'USE '+bdName);
   
   
-          /*const createUserTableQuery = `
+          const createUserTableQuery = `
           CREATE TABLE IF NOT EXISTS users (
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(100) NOT NULL,
-            tell VARCHAR(20),
-            surname VARCHAR(100),
+            tell VARCHAR(20) NULL,
             email VARCHAR(255) NOT NULL,
-            adress VARCHAR(255),
-            adm VARCHAR(5) NOT NULL,
-            password VARCHAR(40) NOT NULL
+            adress INT NULL,
+            password VARCHAR(40) NOT NULL,
+            about TEXT NULL,
+            rooms TEXT NULL
           )
         `;
 
-        const createPackedLunchTableQuery = `
-          CREATE TABLE IF NOT EXISTS packedLunch (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(100) NOT NULL,
-            description TEXT NOT NULL,
-            ingredients TEXT NOT NULL,
-            price DOUBLE NOT NULL,
-            moreInfors TEXT,
-            stock INT NOT NULL,
-            category INT NOT NULL,
-            FOREIGN KEY (category) REFERENCES category(id)
-          )
-        `;
+          
+        const infoCleaning = `CREATE TABLE IF NOT EXISTS infoCleaning (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          id_cleaner INT NOT NULL,
+          typeCleaning VARCHAR(100) NOT NULL,
+          initHourJob VARCHAR(100) NOT NULL,
+          endHourJob VARCHAR(100) NOT NULL,
+          cleanMaterial INT NOT NULL,
+          priceDay DOUBLE NOT NULL,
+          FOREIGN KEY (id_cleaner) REFERENCES user(id)
+        );`
 
-        const createSaleTableQuery = `
-          CREATE TABLE IF NOT EXISTS sales (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            date_time VARCHAR(30) NOT NULL,
-            codeSale VARCHAR(40) NOT NULL,
-            valueTotal DOUBLE NOT NULL,
-            id_user INT NOT NULL,
-            FOREIGN KEY (id_user) REFERENCES users(id)
-          )
-        `;
 
-        const createSalesItemsTableQuery = `
-          CREATE TABLE IF NOT EXISTS salesItems (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            id_sale INT NOT NULL,
-            id_packedLunch INT NOT NULL,
-            observations TEXT NULL,
-            qtd INT NOT NULL,
-            FOREIGN KEY (id_sale) REFERENCES sales(id),
-            FOREIGN KEY (id_packedLunch) REFERENCES packedLunch(id)
-          )
-        `;
+        const fav = `CREATE TABLE IF NOT EXISTS fav (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          id_user INT NOT NULL,
+          id_cleaner INT NOT NULL,
+          FOREIGN KEY (id_user) REFERENCES user(id),
+          FOREIGN KEY (id_cleaner) REFERENCES user(id)
+        );`
 
-        const createKitsTableQuery = `
-          CREATE TABLE IF NOT EXISTS kit (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(100) NOT NULL,
-            description TEXT NOT NULL,
-            category INT,
-            FOREIGN KEY (category) REFERENCES category(id)
-          )
-        `;
+        const serviceEvaluation = `CREATE TABLE IF NOT EXISTS serviceEvaluation (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          id_user INT NOT NULL,
+          id_cleaner INT NOT NULL,
+          id_cleaning INT NOT NULL,
+          coment TEXT,
+          qtyStar INT NOT NULL,
+          FOREIGN KEY (id_user) REFERENCES user(id),
+          FOREIGN KEY (id_cleaner) REFERENCES user(id),
+          FOREIGN KEY (id_cleaning) REFERENCES cleaning(id)
+        );`
 
-        const createKitPackedLunchTableQuery = `
-          CREATE TABLE IF NOT EXISTS kitItems (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            id_kit INT NOT NULL,
-            id_packedLunch INT NOT NULL,
-            qtdPackedLunch INT NOT NULL,
-            FOREIGN KEY (id_kit) REFERENCES kit(id),
-            FOREIGN KEY (id_packedLunch) REFERENCES packedLunch(id)
-          )
-        `;*/
+        const images = `CREATE TABLE IF NOT EXISTS images (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          link VARCHAR(255) NOT NULL,
+          profile BOOLEAN NOT NULL,
+          after BOOLEAN NOT NULL,
+          id_user INT,
+          id_cleaning INT,
+          FOREIGN KEY (id_user) REFERENCES user(id),
+          FOREIGN KEY (id_cleaning) REFERENCES cleaning(id)
+        );`
 
-        /*const createCategoryTableQuery = `
-          CREATE TABLE IF NOT EXISTS category (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(100) NOT NULL,
-            description TEXT,
-            icon VARCHAR(100) NULL
-          )
-        `;
+        const cleaning = `CREATE TABLE IF NOT EXISTS cleaning (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          id_user INT NOT NULL,
+          id_cleaner INT NOT NULL,
+          typeClear VARCHAR(100) NOT NULL,
+          date VARCHAR(100) NOT NULL,
+          qtyHour INT NOT NULL,
+          initHour VARCHAR(100) NOT NULL,
+          desc TEXT NOT NULL,
+          price DOUBLE NOT NULL,
+          status VARCHAR(50) NOT NULL,
+          rooms TEXT NOT NULL,
+          address VARCHAR(255) NOT NULL,
+          FOREIGN KEY (id_user) REFERENCES user(id),
+          FOREIGN KEY (id_cleaner) REFERENCES user(id)
+        );`
 
-        const cleaningTableQuery = `
-          CREATE TABLE IF NOT EXISTS cleaning (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            id_user INT NOT NULL,
-            id_cleaner INT NOT NULL,
-            description TEXT,
-            date TEXT,
-            hour TEXT,
-            rooms TEXT,
-            id_adress INT NOT NULL,
-            value TEXT NOT NULL,
-            FOREIGN KEY (id_user) REFERENCES users(id),
-            FOREIGN KEY (id_cleaner) REFERENCES users(id)
-          )
-      `;
+        const chat = `CREATE TABLE IF NOT EXISTS chat (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          id_user INT NOT NULL,
+          id_cleaner INT NOT NULL,
+          message TEXT NOT NULL,
+          vis BOOLEAN NOT NULL,
+          timestamp TEXT,
+          FOREIGN KEY (id_user) REFERENCES user(id),
+          FOREIGN KEY (id_cleaner) REFERENCES user(id)
+        );`
 
-      const paymentCleaning = `
+        const address = `CREATE TABLE IF NOT EXISTS address (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          id_user INT NOT NULL,
+          address VARCHAR(255) NOT NULL,
+          use BOOLEAN NOT NULL,
+          FOREIGN KEY (id_user) REFERENCES user(id)
+        );`
+
+        const paymentCleaning = `
         CREATE TABLE IF NOT EXISTS paymentCleaning (
           id INT AUTO_INCREMENT PRIMARY KEY,
           id_user INT NOT NULL,
           id_cleaning INT NOT NULL,
           transaction_id TEXT,
           value TEXT,
+          paymentMethod TEXT,
+          paymentDate TEXT,
           FOREIGN KEY (id_user) REFERENCES users(id),
           FOREIGN KEY (id_cleaning) REFERENCES cleaning(id)
         )
       `;
-
-        const createFavTableQuery = `
-          CREATE TABLE IF NOT EXISTS fav (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            id_user INT NOT NULL,
-            id_cleaner INT NOT NULL,
-            FOREIGN KEY (id_user) REFERENCES users(id),
-            FOREIGN KEY (id_cleaner) REFERENCES users(id)
-
-          )
-        `;
-
-        const createCategoryCleaningTableQuery = `
-          CREATE TABLE IF NOT EXISTS categoryCleaning (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            id_cleaning INT NOT NULL,
-            id_category INT NOT NULL,
-            FOREIGN KEY (id_cleaning) REFERENCES cleaning(id),
-            FOREIGN KEY (id_category) REFERENCES category(id)
-
-          )
-        `;
-
-        const createImagesProductTableQuery = `
-          CREATE TABLE IF NOT EXISTS imagesProducts (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            link VARCHAR(255) NOT NULL,
-            id_cleaning INT NULL,
-            id_user INT NULL,
-            profile INT NOT NULL,
-            after INT NOT NULL,
-            FOREIGN KEY (id_user) REFERENCES users(id),
-            FOREIGN KEY (id_cleaning) REFERENCES cleaning(id)
-          )
-        `;
         
         await connectionDB.executeQuery(connection, createUserTableQuery);
-        await connectionDB.executeQuery(connection, createCategoryTableQuery);
-        await connectionDB.executeQuery(connection, createPackedLunchTableQuery);
-        await connectionDB.executeQuery(connection, createKitsTableQuery);
-        await connectionDB.executeQuery(connection, createKitPackedLunchTableQuery);
-        await connectionDB.executeQuery(connection, createSaleTableQuery);
-        await connectionDB.executeQuery(connection, createSalesItemsTableQuery);
-        await connectionDB.executeQuery(connection, createFavTableQuery);
-        await connectionDB.executeQuery(connection, createImagesProductTableQuery);
-        await connectionDB.executeQuery(connection, createCategoryCleaningTableQuery);*/
+        await connectionDB.executeQuery(connection, infoCleaning);
+        await connectionDB.executeQuery(connection, fav);
+        await connectionDB.executeQuery(connection, cleaning);
+        await connectionDB.executeQuery(connection, serviceEvaluation);
+        await connectionDB.executeQuery(connection, images);
+        await connectionDB.executeQuery(connection, chat);
+        await connectionDB.executeQuery(connection, address);
+        await connectionDB.executeQuery(connection, paymentCleaning);
   
         await connectionDB.endConnectionDB(connection);
 

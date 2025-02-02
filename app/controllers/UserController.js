@@ -1,17 +1,13 @@
 const Utils = require("../util/Utils");
 const UserDAO = require("../database/DAO/UserDao");
-const jwt = require('jsonwebtoken');
 const UserModel = require("../model/UserModel");
-require('dotenv').config();
-
-const PRIVATE_KEY_JWT = process.env.PRIVATE_KEY_JWT;
 
 const UserController = {
     async insertUserControll(req, res) {
         try{
             if(req.body != [] && req.body != undefined ){
                 let user = new UserModel(req.body);
-                if(Utils.notEmpty(user.name) && Utils.notEmpty(user.email) && user.adm != undefined && Utils.notEmpty(user.password)){
+                if(Utils.notEmpty(user.name) && Utils.notEmpty(user.email) && Utils.notEmpty(user.password)){
                     let existUser = await UserDAO.selectUser(user);
                     if(existUser.result){
                         if(existUser.data.length == 0){
@@ -71,36 +67,27 @@ const UserController = {
                 if(Utils.notEmpty(user.password) && Utils.notEmpty(user.email)){
                     let userDB = await UserDAO.selectUser(user);
                     if(userDB.result){
-                        userDB.data[0].password = "";
-                        userDB.data[0].adm = userDB.data[0].adm == 1 ? true : false;
-
-                        var userToken = {
+                        let address = await AddressDAO.selectAddress(userDB.data[0].id);
+                        var userData = {
                             id: userDB.data[0].id,
                             name: userDB.data[0].name,
                             email:userDB.data[0].email,
-                            adm: userDB.data[0].adm
+                            tell: userDB.data[0].tell,
+                            rooms: userDB.data[0].rooms,
+                            about:userDB.data[0].about,
+                            address: address.result ? address.data : []
                         }
-                        console.log(PRIVATE_KEY_JWT);
-                        console.log(userDB.data);
-                        var token = jwt.sign(userToken, PRIVATE_KEY_JWT, {
-                            expiresIn: '30m'
-                        });
-
-                        console.log(token);
-
 
 
                         res.status(200).json({
                             'type': "S", 
-                            'token': token,
-                            'data': userDB.data,                           
+                            'data': userData,                           
                             'message': 'Sucesso ao efetuar login'
                         });
                     }else{
                         res.status(400).json({
                             'data': [],
-                            'type': "E",
-                            'token': "",                            
+                            'type': "E",                         
                             'message': 'Usuário não encontrado, verifique se sua senha e email estão corretos.'
                         });
                     }

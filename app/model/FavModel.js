@@ -1,9 +1,8 @@
 class FavModel {
     constructor(favModel) {
-        this.id = favModel.id,
-        this.id_user = favModel.id_user,
-        this.id_kit = favModel.id_kit,
-        this.id_packedLunch = favModel.id_packedLunch 
+        this.id = favModel.id, //int
+        this.id_user = favModel.id_user, // int
+        this.id_cleaner = favModel.id_cleaner //int
     }
 }
   

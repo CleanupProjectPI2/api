@@ -1,19 +1,28 @@
 const ImageController = {
-    async insertImageProduct(req, res) {
+    async insertImage(req, res) {
         try{
             if(req.body != undefined && req.body != []){
                 if(req.file != undefined){
-                        
-                                res.status(200).json({
-                                    'type': "S",                            
-                                    'message': 'Sucesso ao cadastrar imagem do produto',
-                                });
-                        }else{
-                            res.status(400).json({ 
-                                'type': "E",
-                                'message': "Campos obrigatórios estão vazios" 
-                            });
-                        }                             
+                    let imageModel = new ImagesModel(req.body);
+                    imageModel.link = 'uploads/'+req.file.filename;
+                    let intBD = await ImageDAO.insertImageProduct(imageModel);
+                    if(intBD.result){
+                        res.status(200).json({
+                            'type': "S",                            
+                            'message': 'Sucesso ao cadastrar imagem do produto',
+                        });
+                    }else{
+                        res.status(500).json({ 
+                            'type': "E",
+                            'message': "Erro ao inserir imagem" 
+                        }); 
+                    }
+                }else{
+                    res.status(400).json({ 
+                        'type': "E",
+                        'message': "Campos obrigatórios estão vazios" 
+                    });
+                }                             
             }else{
                 res.status(400).json({ 
                     'type': "E",
@@ -34,8 +43,6 @@ const ImageController = {
     async deleteImageProduct(req, res) {
         try{
             if(req.body != undefined && req.body != []){
-                let userToken = new UserModel(req.decoded);
-                    if(userToken.adm == true){
                         if(req.body.imagesDelete != null && req.body.imagesDelete != undefined ){
                             let imagesDeleteId = req.body.imagesDelete;
                             if(imagesDeleteId.length > 0){
@@ -60,13 +67,6 @@ const ImageController = {
                                 'message': "Campos obrigatórios estão vazios" 
                             });
                         }                             
-                    }else{
-                        res.status(405).json({ 
-                            'type': "E",
-                            'message': "Usuário sem permissão para realizar ação" 
-                        });
-                    }
-
             }else{
                 res.status(400).json({ 
                     'type': "E",
