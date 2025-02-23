@@ -15,7 +15,7 @@ const CleaningDAO = {
                     cleaningModel.date, 
                     cleaningModel.qtyHour, 
                     cleaningModel.initHour, 
-                    cleaningModel.desc, 
+                    cleaningModel.description, 
                     cleaningModel.price, 
                     cleaningModel.status, 
                     cleaningModel.rooms, 

@@ -5,6 +5,10 @@ const express = require("express");
 const cors = require('cors');
 
 const path = require('path');
+const { Client, LocalAuth } = require('whatsapp-web.js');
+const qrcode = require('qrcode-terminal');
+const  UserDAO  = require('./database/DAO/UserDAO');
+
 
 
 const app = express();
@@ -24,3 +28,39 @@ app.listen(port, () => {
     console.log('Servindo arquivos estáticos da pasta:', path.join(__dirname, 'public/uploads'));
     console.log("Runing! - Servidor iniciado e executando na porta: " + port);
 });
+
+/*const client = new Client({
+  authStrategy: new LocalAuth()
+});
+
+client.on('qr', (qr) => {
+  qrcode.generate(qr, { small: true });
+});
+
+client.on('ready', () => {
+  console.log('Bot está pronto!');
+});
+
+client.on('message', async msg => {
+  if (msg.body === 'Cadastro') {
+    msg.reply('Por favor, envie seu nome e e-mail para cadastro.\nExemplo:\nNome: Seu Nome\nEmail: seuemail@email.com');
+  }
+
+  if (msg.body.includes('Nome:') && msg.body.includes('Email:')) {
+    const [_, nome, email] = msg.body.split(/\n+/);
+    const novoUsuario = { 
+      nome: nome.replace('Nome: ', ''), 
+      email: email.replace('Email: ', '') 
+    };
+
+    // Inserir os dados diretamente no banco
+    try {
+      const usuario = await UserDAO.insertUser(novoUsuario);
+      msg.reply('Cadastro realizado com sucesso!');
+    } catch (error) {
+      msg.reply('Erro ao cadastrar usuário. Por favor, tente novamente.');
+    }
+  }
+});
+
+client.initialize();*/

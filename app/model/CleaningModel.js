@@ -7,7 +7,7 @@ class CleaningModel {
         this.date = cleaningModel.date, //string
         this.qtyHour = cleaningModel.qtyHour, //int
         this.initHour = cleaningModel.initHour, //string
-        this.desc = cleaningModel.desc, //string
+        this.description = cleaningModel.description, //string
         this.price = cleaningModel.price, //double
         this.status = cleaningModel.status,//string
         this.rooms = cleaningModel.rooms, //string

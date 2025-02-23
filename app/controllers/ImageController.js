@@ -40,7 +40,7 @@ const ImageController = {
 
     },
 
-    async deleteImageProduct(req, res) {
+    async deleteImage(req, res) {
         try{
             if(req.body != undefined && req.body != []){
                         if(req.body.imagesDelete != null && req.body.imagesDelete != undefined ){
@@ -84,7 +84,7 @@ const ImageController = {
 
     },
 
-}
+};
 
 
 module.exports = ImageController;

@@ -87,7 +87,7 @@ const connectionDB = {
           endHourJob VARCHAR(100) NOT NULL,
           cleanMaterial INT NOT NULL,
           priceDay DOUBLE NOT NULL,
-          FOREIGN KEY (id_cleaner) REFERENCES user(id)
+          FOREIGN KEY (id_cleaner) REFERENCES users(id)
         );`
 
 
@@ -95,8 +95,8 @@ const connectionDB = {
           id INT AUTO_INCREMENT PRIMARY KEY,
           id_user INT NOT NULL,
           id_cleaner INT NOT NULL,
-          FOREIGN KEY (id_user) REFERENCES user(id),
-          FOREIGN KEY (id_cleaner) REFERENCES user(id)
+          FOREIGN KEY (id_user) REFERENCES users(id),
+          FOREIGN KEY (id_cleaner) REFERENCES users(id)
         );`
 
         const serviceEvaluation = `CREATE TABLE IF NOT EXISTS serviceEvaluation (
@@ -106,19 +106,19 @@ const connectionDB = {
           id_cleaning INT NOT NULL,
           coment TEXT,
           qtyStar INT NOT NULL,
-          FOREIGN KEY (id_user) REFERENCES user(id),
-          FOREIGN KEY (id_cleaner) REFERENCES user(id),
+          FOREIGN KEY (id_user) REFERENCES users(id),
+          FOREIGN KEY (id_cleaner) REFERENCES users(id),
           FOREIGN KEY (id_cleaning) REFERENCES cleaning(id)
         );`
 
         const images = `CREATE TABLE IF NOT EXISTS images (
           id INT AUTO_INCREMENT PRIMARY KEY,
           link VARCHAR(255) NOT NULL,
-          profile BOOLEAN NOT NULL,
-          after BOOLEAN NOT NULL,
+          profile INT NOT NULL,
+          after INT NOT NULL,
           id_user INT,
           id_cleaning INT,
-          FOREIGN KEY (id_user) REFERENCES user(id),
+          FOREIGN KEY (id_user) REFERENCES users(id),
           FOREIGN KEY (id_cleaning) REFERENCES cleaning(id)
         );`
 
@@ -130,13 +130,13 @@ const connectionDB = {
           date VARCHAR(100) NOT NULL,
           qtyHour INT NOT NULL,
           initHour VARCHAR(100) NOT NULL,
-          desc TEXT NOT NULL,
+          description TEXT NOT NULL,
           price DOUBLE NOT NULL,
           status VARCHAR(50) NOT NULL,
           rooms TEXT NOT NULL,
           address VARCHAR(255) NOT NULL,
-          FOREIGN KEY (id_user) REFERENCES user(id),
-          FOREIGN KEY (id_cleaner) REFERENCES user(id)
+          FOREIGN KEY (id_user) REFERENCES users(id),
+          FOREIGN KEY (id_cleaner) REFERENCES users(id)
         );`
 
         const chat = `CREATE TABLE IF NOT EXISTS chat (
@@ -144,18 +144,18 @@ const connectionDB = {
           id_user INT NOT NULL,
           id_cleaner INT NOT NULL,
           message TEXT NOT NULL,
-          vis BOOLEAN NOT NULL,
+          vis INT NOT NULL,
           timestamp TEXT,
-          FOREIGN KEY (id_user) REFERENCES user(id),
-          FOREIGN KEY (id_cleaner) REFERENCES user(id)
+          FOREIGN KEY (id_user) REFERENCES users(id),
+          FOREIGN KEY (id_cleaner) REFERENCES users(id)
         );`
 
         const address = `CREATE TABLE IF NOT EXISTS address (
           id INT AUTO_INCREMENT PRIMARY KEY,
           id_user INT NOT NULL,
           address VARCHAR(255) NOT NULL,
-          use BOOLEAN NOT NULL,
-          FOREIGN KEY (id_user) REFERENCES user(id)
+          used INT NOT NULL,
+          FOREIGN KEY (id_user) REFERENCES users(id)
         );`
 
         const paymentCleaning = `

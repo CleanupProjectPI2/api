@@ -42,7 +42,7 @@ const InfoCleaningController = {
     },
 
     async selectInfoCleaning(req, res) {
-        try {
+        try {   
             if (req.params.id_cleaner) {
                 let infoCleaning = new InfoCleaningModel(req.params);
                 let result = await InfoCleaningDAO.selectInfoCleaning(infoCleaning);
@@ -137,7 +137,35 @@ const InfoCleaningController = {
                 'message': "Erro interno do servidor"
             });
         }
+    },
+
+    async selectInfoAllCleaners(req, res) {
+        try {   
+                let result = await InfoCleaningDAO.selectInfoAllCleaners();
+                if (result.result) {
+                    res.status(200).json({
+                        'type': "S",
+                        'data': result.data,
+                        'message': 'Sucesso ao buscar informações de limpeza'
+                    });
+                } else {
+                    res.status(400).json({
+                        'type': "E",
+                        'message': 'Informações de limpeza não encontradas'
+                    });
+                }
+        } catch (e) {
+            res.status(500).json({
+                'type': "E",
+                'message': "Erro interno do servidor"
+            });
+        }
     }
 };
+
+
+
+
+
 
 module.exports = InfoCleaningController;

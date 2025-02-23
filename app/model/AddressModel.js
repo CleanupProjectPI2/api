@@ -3,7 +3,7 @@ class AddressModel {
         this.id = addressModel.id, //int
         this.id_user = addressModel.id_user, //int
         this.address = addressModel.address, //string
-        this.use = addressModel.use //boolean
+        this.used = addressModel.used //boolean
     }
 }
   

@@ -6,7 +6,7 @@ const CleaningController = {
         try {
             if (req.body != [] && req.body != undefined) {
                 let cleaning = new CleaningModel(req.body);
-                if (cleaning.id_user && cleaning.id_cleaner && cleaning.typeClear && cleaning.date && cleaning.qtyHour && cleaning.initHour && cleaning.desc && cleaning.price && cleaning.status && cleaning.rooms && cleaning.address) {
+                if (cleaning.id_user && cleaning.id_cleaner && cleaning.typeClear && cleaning.date && cleaning.qtyHour && cleaning.initHour && cleaning.description && cleaning.price && cleaning.status && cleaning.rooms && cleaning.address) {
                     let result = await CleaningDAO.insertCleaning(cleaning);
                     if (result.result) {
                         res.status(200).json({

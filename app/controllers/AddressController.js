@@ -6,7 +6,7 @@ const AddressController = {
         try {
             if (req.body != [] && req.body != undefined) {
                 let address = new AddressModel(req.body);
-                if (address.id_user && address.address && address.use) {
+                if (address.id_user && address.address && address.used) {
                     let result = await AddressDAO.insertAddress(address);
                     if (result.result) {
                         res.status(200).json({

@@ -7,8 +7,8 @@ const AddressDAO = {
             var connection = await connectionDB.openConnectionDB();
 
             var result = await connection.execute(
-                `INSERT INTO address (id_user, address, use) VALUES (?, ?, ?)`, 
-                [addressModel.id_user, addressModel.address,  addressModel.use]
+                `INSERT INTO address (id_user, address, used) VALUES (?, ?, ?)`, 
+                [addressModel.id_user, addressModel.address,  addressModel.used]
             );
 
             await connection.end();
