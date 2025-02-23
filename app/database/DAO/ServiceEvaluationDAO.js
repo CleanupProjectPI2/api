@@ -27,7 +27,7 @@ const ServiceEvaluationDAO = {
         try {
             var connection = await connectionDB.openConnectionDB();
 
-            const result = await connection.execute(`SELECT * FROM serviceEvaluation WHERE id_cleaning = ?`, [id]);
+            const result = await connection.promise().execute(`SELECT * FROM serviceEvaluation WHERE id_cleaning = ?`, [id]);
 
             await connection.end();
 
@@ -45,7 +45,7 @@ const ServiceEvaluationDAO = {
         try {
             var connection = await connectionDB.openConnectionDB();
 
-            const result = await connection.execute(`SELECT * FROM serviceEvaluation WHERE id_cleaner = ?`, [id]);
+            const result = await connection.promise().execute(`SELECT * FROM serviceEvaluation WHERE id_cleaner = ?`, [id]);
 
             await connection.end();
 

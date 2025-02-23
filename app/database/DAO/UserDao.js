@@ -1,3 +1,4 @@
+const { use } = require("../../routes/Routes");
 const connectionDB = require("../ConnectionDB");
 
 const UserDAO = {
@@ -77,7 +78,7 @@ const UserDAO = {
         try{
             var connection = await connectionDB.openConnectionDB();
 
-            var result = await connection.execute(`UPDATE users SET name = ?, tell = ?, email = ?, password = ?, about = ?, rooms = ?, WHERE id = ?`, [userModel.name, userModel.tell, userModel.email, userModel.password, userModel.about, userModel.rooms, userModel.id]);
+            var result = await connection.execute(`UPDATE users SET name = ?, tell = ?, email = ?, password = ?, about = ?, rooms = ? WHERE id = ?`, [userModel.name, userModel.tell, userModel.email, userModel.password, userModel.about, userModel.rooms, userModel.id]);
             
             await connection.end();
             

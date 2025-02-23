@@ -41,7 +41,7 @@ const FavController = {
 
     async selectFav(req, res) {
         try {
-            let fav = new FavModel(req.params);
+            let fav = new FavModel(req.query);
             if (fav.id_user) {
                 let result = await FavDAO.selectFav(fav);
                 if (result.result) {
@@ -72,7 +72,7 @@ const FavController = {
 
     async deleteFav(req, res) {
         try {
-            let fav = new FavModel(req.params);
+            let fav = new FavModel(req.query);
             if (fav.id) {
                 let result = await FavDAO.deleteFav(fav);
                 if (result.result) {

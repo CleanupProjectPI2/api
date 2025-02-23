@@ -6,7 +6,7 @@ class InfoCleaningModel {
         this.initHourJob = infoC.initHourJob, //string
         this.endHourJob = infoC.endHourJob, //string
         this.cleanMaterial = infoC.cleanMaterial, //boolean
-        this.priceDay = this.priceDay //double
+        this.priceDay = infoC.priceDay //double
     }
 }
   

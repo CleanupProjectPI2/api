@@ -6,6 +6,7 @@ const ImagesDAO = {
         try {
             var connection = await connectionDB.openConnectionDB();
 
+            console.log(imageModel)
             var result = await connection.execute(
                 `INSERT INTO images (link, profile, after, id_user, id_cleaning) VALUES (?, ?, ?, ?, ?)`, 
                 [
@@ -33,7 +34,7 @@ const ImagesDAO = {
         try {
             var connection = await connectionDB.openConnectionDB();
 
-            const result = await connection.execute(`SELECT * FROM images WHERE id = ?`, [id]);
+            const result = await connection.promise().execute(`SELECT * FROM images WHERE id = ?`, [id]);
 
             await connection.end();
 
@@ -51,7 +52,7 @@ const ImagesDAO = {
         try {
             var connection = await connectionDB.openConnectionDB();
 
-            const result = await connection.execute(`SELECT * FROM images WHERE id_user = ?`, [id_user]);
+            const result = await connection.promise().execute(`SELECT * FROM images WHERE id_user = ?`, [id_user]);
 
             await connection.end();
 
@@ -69,7 +70,7 @@ const ImagesDAO = {
         try {
             var connection = await connectionDB.openConnectionDB();
 
-            const result = await connection.execute(`SELECT * FROM images WHERE id_cleaning = ?`, [id_cleaning]);
+            const result = await connection.promise().execute(`SELECT * FROM images WHERE id_cleaning = ?`, [id_cleaning]);
 
             await connection.end();
 

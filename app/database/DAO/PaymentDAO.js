@@ -34,7 +34,7 @@ const PaymentCleaningDAO = {
         try {
             var connection = await connectionDB.openConnectionDB();
 
-            const result = await connection.execute(`SELECT * FROM paymentCleaning WHERE id = ?`, [id]);
+            const result = await connection.promise().execute(`SELECT * FROM paymentCleaning WHERE id = ?`, [id]);
 
             await connection.end();
 
@@ -52,7 +52,7 @@ const PaymentCleaningDAO = {
         try {
             var connection = await connectionDB.openConnectionDB();
 
-            const result = await connection.execute(`SELECT * FROM paymentCleaning WHERE id_user = ?`, [id_user]);
+            const result = await connection.promise().execute(`SELECT * FROM paymentCleaning WHERE id_user = ?`, [id_user]);
 
             await connection.end();
 
@@ -70,7 +70,7 @@ const PaymentCleaningDAO = {
         try {
             var connection = await connectionDB.openConnectionDB();
 
-            const result = await connection.execute(`SELECT * FROM paymentCleaning WHERE id_cleaning = ?`, [id_cleaning]);
+            const result = await connection.promise().execute(`SELECT * FROM paymentCleaning WHERE id_cleaning = ?`, [id_cleaning]);
 
             await connection.end();
 

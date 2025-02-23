@@ -39,7 +39,7 @@ const CleaningDAO = {
         try {
             var connection = await connectionDB.openConnectionDB();
 
-            const result = await connection.execute(`SELECT * FROM cleaning WHERE id = ?`, [id]);
+            const result = await connection.promise().execute(`SELECT * FROM cleaning WHERE id = ?`, [id]);
 
             await connection.end();
 
@@ -57,7 +57,7 @@ const CleaningDAO = {
         try {
             var connection = await connectionDB.openConnectionDB();
 
-            const result = await connection.execute(`SELECT * FROM cleaning WHERE id_user = ?`, [id_user]);
+            const result = await connection.promise().execute(`SELECT * FROM cleaning WHERE id_user = ?`, [id_user]);
 
             await connection.end();
 
@@ -75,7 +75,7 @@ const CleaningDAO = {
         try {
             var connection = await connectionDB.openConnectionDB();
 
-            const result = await connection.execute(`SELECT * FROM cleaning WHERE id_cleaner = ?`, [id_cleaner]);
+            const result = await connection.promise().execute(`SELECT * FROM cleaning WHERE id_cleaner = ?`, [id_cleaner]);
 
             await connection.end();
 

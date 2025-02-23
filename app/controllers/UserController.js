@@ -1,6 +1,7 @@
 const Utils = require("../util/Utils");
 const UserDAO = require("../database/DAO/UserDao");
 const UserModel = require("../model/UserModel");
+const AddressDAO = require("../database/DAO/AddressDAO");
 
 const UserController = {
     async insertUserControll(req, res) {
@@ -67,23 +68,31 @@ const UserController = {
                 if(Utils.notEmpty(user.password) && Utils.notEmpty(user.email)){
                     let userDB = await UserDAO.selectUser(user);
                     if(userDB.result){
-                        let address = await AddressDAO.selectAddress(userDB.data[0].id);
-                        var userData = {
-                            id: userDB.data[0].id,
-                            name: userDB.data[0].name,
-                            email:userDB.data[0].email,
-                            tell: userDB.data[0].tell,
-                            rooms: userDB.data[0].rooms,
-                            about:userDB.data[0].about,
-                            address: address.result ? address.data : []
+                        if(userDB.data.length >= 1){
+                            let address = await AddressDAO.selectAddress(userDB.data[0].id);
+                            var userData = {
+                                id: userDB.data[0].id,
+                                name: userDB.data[0].name,
+                                email:userDB.data[0].email,
+                                tell: userDB.data[0].tell,
+                                rooms: userDB.data[0].rooms,
+                                about:userDB.data[0].about,
+                                address: address.result ? address.data : [] 
+                            }
+    
+    
+                            res.status(200).json({
+                                'type': "S", 
+                                'data': userData,                           
+                                'message': 'Sucesso ao efetuar login'
+                            });
+                        }else{
+                            res.status(400).json({
+                                'data': [],
+                                'type': "E",                         
+                                'message': 'Usuário não encontrado, verifique se sua senha e email estão corretos.'
+                            });
                         }
-
-
-                        res.status(200).json({
-                            'type': "S", 
-                            'data': userData,                           
-                            'message': 'Sucesso ao efetuar login'
-                        });
                     }else{
                         res.status(400).json({
                             'data': [],
@@ -105,6 +114,7 @@ const UserController = {
             }
             
         }catch(error){
+            console.log(error.message);
             res.status(500).json({ 
                 'type': "E",
                 'message': "Erro interno do servidor" 
@@ -115,7 +125,7 @@ const UserController = {
 
     async deleteUser(req, res){
         try{
-            let user = new UserModel(req.decoded);
+            let user = new UserModel({id:req.query.id});
             if(Utils.notEmpty(user.id)){
                 let intBD = await UserDAO.deleteUser(user);
                 if(intBD.result){

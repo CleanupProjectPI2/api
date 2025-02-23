@@ -116,8 +116,8 @@ const connectionDB = {
           link VARCHAR(255) NOT NULL,
           profile INT NOT NULL,
           after INT NOT NULL,
-          id_user INT,
-          id_cleaning INT,
+          id_user INT NULL,
+          id_cleaning INT NULL,
           FOREIGN KEY (id_user) REFERENCES users(id),
           FOREIGN KEY (id_cleaning) REFERENCES cleaning(id)
         );`

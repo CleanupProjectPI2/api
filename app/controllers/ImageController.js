@@ -1,3 +1,6 @@
+const ImageDAO = require("../database/DAO/ImagesDAO");
+const ImagesModel = require("../model/ImagesModel");
+
 const ImageController = {
     async insertImage(req, res) {
         try{
@@ -5,7 +8,13 @@ const ImageController = {
                 if(req.file != undefined){
                     let imageModel = new ImagesModel(req.body);
                     imageModel.link = 'uploads/'+req.file.filename;
-                    let intBD = await ImageDAO.insertImageProduct(imageModel);
+                    imageModel.id_cleaning = imageModel.id_cleaning == undefined ? null : imageModel.id_cleaning;
+                    imageModel.id_user = imageModel.id_user == undefined ? null : imageModel.id_user; 
+                    imageModel.profile = imageModel.profile == "true" || imageModel.profile === true ? true : false;
+                    imageModel.after = imageModel.after == "true" || imageModel.after === true ? true : false;  
+                    console.log(imageModel)
+                    let intBD = await ImageDAO.insertImage(imageModel);
+                    console.log(intBD);
                     if(intBD.result){
                         res.status(200).json({
                             'type': "S",                            
@@ -47,8 +56,8 @@ const ImageController = {
                             let imagesDeleteId = req.body.imagesDelete;
                             if(imagesDeleteId.length > 0){
                                 for(var i = 0; i < imagesDeleteId.length; i++){
-                                    console.log(imagesDeleteId[i]);
-                                    await ImageDAO.deleteImageProduct(imagesDeleteId[i]); 
+                                    console.log(imagesDeleteId[i].id);
+                                    await ImageDAO.deleteImage(imagesDeleteId[i].id); 
                                 }
                                 
                                 res.status(200).json({

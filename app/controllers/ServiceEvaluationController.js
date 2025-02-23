@@ -41,9 +41,9 @@ const ServiceEvaluationController = {
 
     async selectServiceEvaluationByCleaner(req, res) {
         try {
-            let id = req.params.id_cleaner;
+            let id = req.query.id_cleaner;
             if (id) {
-                let result = await ServiceEvaluationDAO.selectServiceEvaluation(id_cleaner);
+                let result = await ServiceEvaluationDAO.selectServiceEvaluationByCleaner(id);
                 if (result.result) {
                     res.status(200).json({
                         'type': "S",
@@ -63,6 +63,7 @@ const ServiceEvaluationController = {
                 });
             }
         } catch (error) {
+            console.log(error.message)
             res.status(500).json({
                 'type': "E",
                 'message': "Erro interno do servidor"
@@ -72,9 +73,9 @@ const ServiceEvaluationController = {
 
     async selectServiceEvaluation(req, res) {
         try {
-            let id = req.params.id_cleaning;
+            let id = req.query.id_cleaning;
             if (id) {
-                let result = await ServiceEvaluationDAO.selectServiceEvaluation(id_cleaning);
+                let result = await ServiceEvaluationDAO.selectServiceEvaluation(id);
                 if (result.result) {
                     res.status(200).json({
                         'type': "S",
@@ -94,6 +95,7 @@ const ServiceEvaluationController = {
                 });
             }
         } catch (error) {
+            console.log(error.message)
             res.status(500).json({
                 'type': "E",
                 'message': "Erro interno do servidor"
@@ -103,7 +105,7 @@ const ServiceEvaluationController = {
 
     async deleteServiceEvaluation(req, res) {
         try {
-            let id = req.params.id;
+            let id = req.query.id;
             if (id) {
                 let result = await ServiceEvaluationDAO.deleteServiceEvaluation(id);
                 if (result.result) {

@@ -27,7 +27,7 @@ const ChatDAO = {
         try {
             var connection = await connectionDB.openConnectionDB();
 
-            const result = await connection.execute(`SELECT * FROM chat WHERE id_cleaner = ? AND  id_user = ? `, [chatModel.id_cleaner, chatModel.id_user]);
+            const result = await connection.promise().execute(`SELECT * FROM chat WHERE id_cleaner = ? AND  id_user = ? `, [chatModel.id_cleaner, chatModel.id_user]);
 
             await connection.end();
 

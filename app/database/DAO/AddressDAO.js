@@ -28,8 +28,8 @@ const AddressDAO = {
             var connection = await connectionDB.openConnectionDB();
 
             var result = await connection.execute(
-                `UPDATE address SET address = ? WHERE id = ?`, 
-                [addressModel.address, addressModel.id]
+                `UPDATE address SET address = ?, used = ? WHERE id = ?`, 
+                [addressModel.address, addressModel.used,addressModel.id]
             );
 
             await connection.end();
@@ -48,12 +48,12 @@ const AddressDAO = {
         try {
             var connection = await connectionDB.openConnectionDB();
 
-            const result = await connection.execute(`SELECT * FROM address WHERE id_user = ?`, [id_user]);
+            const result = await await connection.promise().execute(`SELECT * FROM address WHERE id_user = ?`, [id_user]);
 
             await connection.end();
 
             if(result != null) {
-                return ({ result: true, message: "Sucesso na seleção!", data: result });
+                return ({ result: true, message: "Sucesso na seleção!", data: result[0] });
             } else {
                 return ({ result: false, message: "Erro na seleção!", data: [] });
             }

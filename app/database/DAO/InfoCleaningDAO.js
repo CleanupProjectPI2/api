@@ -111,7 +111,7 @@ const InfoCleaningDAO = {
 
       if (result != null) {
         console.log("Sucesso na seleção!");
-        return { result: true, message: "Sucesso na seleção!", data: result};
+        return { result: true, message: "Sucesso na seleção!", data: result[0]};
       } else {
         console.log("Erro na seleção!");
         return { result: false, message: "Erro na seleção!", data: [] };

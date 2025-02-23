@@ -42,25 +42,7 @@ client.on('ready', () => {
 });
 
 client.on('message', async msg => {
-  /*if (msg.body === 'Cadastro') {
-    msg.reply('Por favor, envie seu nome e e-mail para cadastro.\nExemplo:\nNome: Seu Nome\nEmail: seuemail@email.com');
-  }
-
-  if (msg.body.includes('Nome:') && msg.body.includes('Email:')) {
-    const [_, nome, email] = msg.body.split(/\n+/);
-    const novoUsuario = { 
-      nome: nome.replace('Nome: ', ''), 
-      email: email.replace('Email: ', '') 
-    };
-
-    // Inserir os dados diretamente no banco
-    try {
-      const usuario = await UserDAO.insertUser(novoUsuario);
-      msg.reply('Cadastro realizado com sucesso!');
-    } catch (error) {
-      msg.reply('Erro ao cadastrar usuário. Por favor, tente novamente.');
-    }
-  }*/
+  
   console.log(msg.body)
   let messageResponse = await IAController.iaConversationMethod(msg.body);
   console.log(messageResponse)

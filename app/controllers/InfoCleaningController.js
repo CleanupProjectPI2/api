@@ -7,7 +7,8 @@ const InfoCleaningController = {
         try {
             if (req.body != [] && req.body != undefined ) {
                 let infoCleaning = new InfoCleaningModel(req.body);
-                if (Utils.notEmpty(infoCleaning.id_cleaner) && Utils.notEmpty(infoCleaning.typeCleaning) && Utils.notEmpty(infoCleaning.initHourJob) && Utils.notEmpty(infoCleaning.endHourJob) && Utils.notEmpty(infoCleaning.cleanMaterial) && Utils.notEmpty(infoCleaning.priceDay)) {
+                console.log(infoCleaning);
+                if (Utils.notEmpty(infoCleaning.id_cleaner) && Utils.notEmpty(infoCleaning.typeCleaning) && Utils.notEmpty(infoCleaning.initHourJob) && Utils.notEmpty(infoCleaning.endHourJob) && infoCleaning.cleanMaterial != undefined && Utils.notEmpty(infoCleaning.priceDay)) {
                     let result = await InfoCleaningDAO.insertInfoCleaning(infoCleaning);
                     if (result.result) {
                         res.status(200).json({
@@ -43,8 +44,8 @@ const InfoCleaningController = {
 
     async selectInfoCleaning(req, res) {
         try {   
-            if (req.params.id_cleaner) {
-                let infoCleaning = new InfoCleaningModel(req.params);
+            if (req.query.id_cleaner) {
+                let infoCleaning = new InfoCleaningModel(req.query);
                 let result = await InfoCleaningDAO.selectInfoCleaning(infoCleaning);
                 if (result.result) {
                     res.status(200).json({
@@ -111,8 +112,8 @@ const InfoCleaningController = {
 
     async deleteInfoCleaning(req, res) {
         try {
-            if (req.params.id) {
-                let infoCleaning = new InfoCleaningModel(req.params);
+            if (req.query.id) {
+                let infoCleaning = new InfoCleaningModel(req.query);
                 let result = await InfoCleaningDAO.deleteInfoCleaning(infoCleaning);
                 if (result.result) {
                     res.status(200).json({

@@ -5,7 +5,7 @@ class ImagesModel {
         this.profile = imageModel.profile, //boolean
         this.after = imageModel.after, //boolean 
         this.id_user = imageModel.id_user, //int null
-        this.id_cleaning = imageModel.id_cleanin //int null
+        this.id_cleaning = imageModel.id_cleaning //int null
     }
   }
   

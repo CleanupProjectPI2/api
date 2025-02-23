@@ -18,7 +18,7 @@ const ValidTokenController = {
         
         
     
-        if (username === USER && password === PASS) {
+        if (username === USER && password === PASSWORD) {
             next();
         } else {
             res.status(401).json({ message: 'Invalid credentials' });

@@ -81,7 +81,7 @@ router.delete('/deleteInfoCleaning', ValidTokenController.validToken, InfoCleani
 
 router.post('/insertServiceEvaluation', ValidTokenController.validToken, ServiceEvaluationController.insertServiceEvaluation);
 router.get('/selectServiceEvaluation', ValidTokenController.validToken, ServiceEvaluationController.selectServiceEvaluation); //por faxina
-router.get('/selectServiceEvaluation', ValidTokenController.validToken, ServiceEvaluationController.selectServiceEvaluationByCleaner); // por usuário cleaner
+router.get('/selectServiceEvaluationByCleaner', ValidTokenController.validToken, ServiceEvaluationController.selectServiceEvaluationByCleaner); // por usuário cleaner
 router.delete('/deleteServiceEvaluation', ValidTokenController.validToken, ServiceEvaluationController.deleteServiceEvaluation);
 
 router.post('/ia', IAController.iaConversation);

@@ -43,7 +43,7 @@ const AddressController = {
         try {
             if (req.body != [] && req.body != undefined) {
                 let address = new AddressModel(req.body);
-                if (address.id && address.address) {
+                if (address.id && address.address && address.used != undefined) {
                     let result = await AddressDAO.updateAddress(address);
                     if (result.result) {
                         res.status(200).json({
@@ -78,9 +78,11 @@ const AddressController = {
 
     async selectAddress(req, res) {
         try {
-            let id_user = req.params.id_user;
+            let id_user = req.query.id_user;
+            console.log(id_user)
             if (id_user) {
                 let result = await AddressDAO.selectAddress(id_user);
+                console.log(result)
                 if (result.result) {
                     res.status(200).json({
                         'type': "S",
@@ -109,7 +111,7 @@ const AddressController = {
 
     async deleteAddress(req, res) {
         try {
-            let id = req.params.id;
+            let id = req.query.id;
             if (id) {
                 let result = await AddressDAO.deleteAddress(id);
                 if (result.result) {

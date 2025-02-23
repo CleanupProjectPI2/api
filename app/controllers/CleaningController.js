@@ -41,7 +41,7 @@ const CleaningController = {
 
     async selectCleaning(req, res) {
         try {
-            let id = req.params.id;
+            let id = req.query.id;
             if (id) {
                 let result = await CleaningDAO.selectCleaning(id);
                 if (result.result) {
@@ -72,7 +72,7 @@ const CleaningController = {
 
     async selectCleaningByUser(req, res) {
         try {
-            let id_user = req.params.id_user;
+            let id_user = req.query.id_user;
             if (id_user) {
                 let result = await CleaningDAO.selectCleaningByUser(id_user);
                 if (result.result) {
@@ -103,7 +103,7 @@ const CleaningController = {
 
     async selectCleaningByCleaner(req, res) {
         try {
-            let id_cleaner = req.params.id_cleaner;
+            let id_cleaner = req.query.id_cleaner;
             if (id_cleaner) {
                 let result = await CleaningDAO.selectCleaningByCleaner(id_cleaner);
                 if (result.result) {
@@ -171,7 +171,7 @@ const CleaningController = {
 
     async deleteCleaning(req, res) {
         try {
-            let id = req.params.id;
+            let id = req.query.id;
             if (id) {
                 let result = await CleaningDAO.deleteCleaning(id);
                 if (result.result) {
