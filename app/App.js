@@ -7,7 +7,7 @@ const cors = require('cors');
 const path = require('path');
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
-const  UserDAO  = require('./database/DAO/UserDAO');
+const IAController = require('./controllers/IAController.js');
 
 
 
@@ -29,7 +29,7 @@ app.listen(port, () => {
     console.log("Runing! - Servidor iniciado e executando na porta: " + port);
 });
 
-/*const client = new Client({
+const client = new Client({
   authStrategy: new LocalAuth()
 });
 
@@ -42,7 +42,7 @@ client.on('ready', () => {
 });
 
 client.on('message', async msg => {
-  if (msg.body === 'Cadastro') {
+  /*if (msg.body === 'Cadastro') {
     msg.reply('Por favor, envie seu nome e e-mail para cadastro.\nExemplo:\nNome: Seu Nome\nEmail: seuemail@email.com');
   }
 
@@ -60,7 +60,13 @@ client.on('message', async msg => {
     } catch (error) {
       msg.reply('Erro ao cadastrar usuário. Por favor, tente novamente.');
     }
-  }
+  }*/
+  console.log(msg.body)
+  let messageResponse = await IAController.iaConversationMethod(msg.body);
+  console.log(messageResponse)
+  msg.reply(messageResponse);
+
+  
 });
 
-client.initialize();*/
+client.initialize();

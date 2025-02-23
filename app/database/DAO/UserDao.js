@@ -8,7 +8,7 @@ const UserDAO = {
 
             var result = await connection.execute(
                 `INSERT INTO users (name, tell, email, password, about, rooms) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)`, 
+                VALUES (?, ?, ?, ?, ?, ?)`, 
                 [
                     user.name, 
                     user.tell, 
@@ -36,6 +36,27 @@ const UserDAO = {
             var connection = await connectionDB.openConnectionDB();
 
             const result = await connection.promise().execute('SELECT * FROM users WHERE email = ? AND password = ?', [userModel.email, userModel.password]);
+            
+            await connection.end();
+            
+            if(result != null){
+                console.log("Sucesso na seleção!");
+                return ({result: true, message: "Sucesso na seleção!", data: result[0]});
+            }else{
+                console.log("Erro na seleção!");
+                return ({result: false, message: "Erro na seleção!", data: []});
+            }
+        }catch(error){
+            console.log(error);
+            return ({result: false, message: error, data: []});
+        }
+    },
+
+    async selectUserByEmail(userModel) {
+        try{
+            var connection = await connectionDB.openConnectionDB();
+
+            const result = await connection.promise().execute('SELECT * FROM users WHERE email = ?', [userModel.email]);
             
             await connection.end();
             
